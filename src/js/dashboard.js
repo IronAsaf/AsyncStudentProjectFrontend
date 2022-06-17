@@ -48,70 +48,55 @@ function DashboardContent() {
             overflow: 'auto',
           }}
         >
-          
+          <Typography component="h1" variant="h2" align='center'>
+                  User Dashboard
+                </Typography>
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
         
             <Container component="main" maxWidth="false">
               <CssBaseline />
-              <Box
-                sx={{
-                  marginTop: 8,
-                  display: 'inline',
-                  flexDirection: 'row',
-                  alignItems: 'left',
-                }}
-              >
-                <Typography component="h1" variant="h5">
+              <Box>
+                <Typography component="h3" variant="h5">
                   Add a Expense:
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <TextField
-                      name="firstName"
+                      name="expenseName"
                       required
                       fullWidth
-                      id="firstName"
-                      label="First Name"
+                      id="expenseName"
+                      label="Expense Name"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <TextField
                       required
                       fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
+                      id="cost"
+                      label="Cost"
+                      name="cost"
+                      type="number"
                     />
                   </Grid>
-                  <Grid item xs={12} sm={3}>
+                  <Grid item xs={12} sm={4}>
                     <TextField
                       required
                       fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={3}>
-                    <TextField
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
+                      id="category"
+                      label="Category"
+                      name="category"
                     />
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
                       required
                       fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
+                      name="description"
+                      label="Description"
+                      id="description"
                     />
                   </Grid>
 
