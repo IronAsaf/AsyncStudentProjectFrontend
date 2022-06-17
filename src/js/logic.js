@@ -11,7 +11,10 @@ export function loadDash()
     root.render(<Dashboard/>);
 }
 
-export function AddExpense()
+export function AddExpense(expenseData)
 {
-    alert("Going to add expense.")
+    alert('data:'+expenseData.expenseName+'\n'+
+    expenseData.cost+'\n'+
+    expenseData.category+'\n'+
+    expenseData.description+'\n')
 }

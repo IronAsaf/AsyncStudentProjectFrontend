@@ -2,16 +2,13 @@ import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Orders from './orders';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { AddExpense } from './logic';
 
 
@@ -20,10 +17,14 @@ const mdTheme = createTheme();
 const handleSubmit = (event) => {
   event.preventDefault();
   const data = new FormData(event.currentTarget);
-  console.log({
-    email: data.get('email'),
-    password: data.get('password'),
-  });
+  let item = {
+    expenseName: data.get('expenseName'),
+    cost: data.get('cost'),
+    category: data.get('category'),
+    description: data.get('description')
+  };
+  console.log(item);
+  AddExpense(item);
 };
 
 
@@ -107,8 +108,6 @@ function DashboardContent() {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                    onClick={() => AddExpense()}
-
                   >
                     Add Expense
                   </Button>
