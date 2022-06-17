@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
-
+import {loadDash} from "./logic";
 
 class SignUp extends Component
 {
@@ -23,15 +23,14 @@ class SignUp extends Component
       
     callAPI()
     {
-      fetch("http://localhost:9000/testapi")
-          .then(res => res.text())
-          .then(res => this.setState({ apiResponse: res }));
+      //fetch("http://localhost:9000/testapi").then(res => res.text()).then(res => this.setState({ apiResponse: res }));
     }
 
     componentWillMount()
     {
       this.callAPI();
     }
+
 
 
     render()
@@ -123,6 +122,7 @@ class SignUp extends Component
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={() => loadDash()}
                 >
                   Sign Up
                 </Button>
