@@ -39,8 +39,11 @@ class SignUp extends Component
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
-          email: data.get('email'),
-          password: data.get('password'),
+            userId: data.get('userId'),
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            date: data.get('date'),
+          password: data.get('password')
         });
       };
     
