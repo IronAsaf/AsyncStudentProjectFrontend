@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 
 
 class SignUp extends Component
@@ -127,9 +128,10 @@ class SignUp extends Component
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <a href="./login" variant="body2">
+                    <Link style={{ display: "block", margin: "1rem 0" }}
+                            to={`/signin`}>
                       Already have an account? Sign in
-                    </a>
+                    </Link>
                   </Grid>
                 </Grid>
               </Box>
