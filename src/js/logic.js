@@ -1,14 +1,16 @@
 import ReactDOM from "react-dom/client";
-import Dashboard from "./dashboard";
+import { useNavigate } from "react-router-dom";
 
 
 const root = ReactDOM.createRoot(
     document.getElementById("root")
   );
 
-export function loadDash()
+export function LoadDash()
 {
-    root.render(<Dashboard/>);
+    //let navigate = useNavigate(); 
+    //let path = 'dashboard'; 
+    //navigate(path);
 }
 
 export function AddExpense(expenseData)
@@ -18,3 +20,7 @@ export function AddExpense(expenseData)
     expenseData.category+'\n'+
     expenseData.description+'\n')
 }
+
+const Logic = props => {}
+
+export default Logic;
