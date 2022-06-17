@@ -10,3 +10,8 @@ export function loadDash()
 {
     root.render(<Dashboard/>);
 }
+
+export function AddExpense()
+{
+    alert("Going to add expense.")
+}

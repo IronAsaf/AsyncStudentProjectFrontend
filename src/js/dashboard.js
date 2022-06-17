@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { AddExpense } from './logic';
 
 
 const mdTheme = createTheme();
@@ -106,6 +107,8 @@ function DashboardContent() {
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    onClick={() => AddExpense()}
+
                   >
                     Add Expense
                   </Button>

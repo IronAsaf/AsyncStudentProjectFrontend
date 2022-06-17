@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {loadDash} from "./logic";
 
 
 class SignIn extends Component
@@ -90,8 +91,9 @@ class SignIn extends Component
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    onClick={() => loadDash()}
                   >
-                    Sign Up
+                    Sign In
                   </Button>
                 </Box>
               </Box>
