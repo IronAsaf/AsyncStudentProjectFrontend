@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { AddExpense } from './logic';
-
+import { createData, initiateData } from './orders';
 
 const mdTheme = createTheme();
 
@@ -114,7 +114,8 @@ function DashboardContent() {
                 </Box>
               </Box>
             </Container>
-              {/* Recent Orders */}
+              {
+              }
               <Grid item xs={12}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                   <Orders />
