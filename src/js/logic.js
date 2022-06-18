@@ -15,17 +15,15 @@ export function LoadDash()
     root.render(<Dashboard/>);
 }
 
-let temp = false;
-export async function handleUserSignIn(userData)
+export function handleUserSignIn(userData)
 {
-    //do things
-    //if ok loadDash
-    //if not, throw alert.
+    alert(userData);
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET","http://localhost:9000/is_authorize",true)
+    console.log(userData)
+    xhr.send()
+    return xhr.responseType;
 
-    if(temp)
-    {
-        LoadDash();
-    }
 }
 
 export function AddExpense(expenseData)

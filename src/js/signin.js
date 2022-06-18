@@ -24,6 +24,7 @@ class SignIn extends Component
       callAPI()
       {
           // call the API here
+          //fetch("http://localhost:9000")
         /*fetch("http://localhost:9000/testapi")
             .then(res => res.text())
             .then(res => this.setState({ apiResponse: res }));*/
@@ -31,6 +32,7 @@ class SignIn extends Component
 
       componentWillMount()
       {
+        console.log("mounting");
         this.callAPI();
       }
       
@@ -42,6 +44,7 @@ class SignIn extends Component
           const data = new FormData(event.currentTarget);
           this.userData.userID = data.get('userId');
           this.userData.userPassword = data.get('password');
+          console.log(this.userData)
           handleUserSignIn(this.userData);
         };
       
