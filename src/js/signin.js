@@ -33,7 +33,7 @@ class SignIn extends Component
       componentWillMount()
       {
         console.log("mounting");
-        this.callAPI();
+        //this.callAPI();
       }
       
       render() {
@@ -95,7 +95,7 @@ class SignIn extends Component
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
-                    onClick={() => LoadDash()}
+                    //onClick={() => LoadDash()}
                   >
                     Sign In
                   </Button>
