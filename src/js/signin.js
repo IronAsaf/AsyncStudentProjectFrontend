@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {handleUserSignIn, LoadDash} from "./logic";
 
 
 class SignIn extends Component
@@ -17,14 +18,15 @@ class SignIn extends Component
     {
       super(props);
       this.state = { apiResponse: "" };
+      this.userData = {userID:0, userPassword:""};
     }
       
       callAPI()
       {
           // call the API here
-        fetch("http://localhost:9000/testapi")
+        /*fetch("http://localhost:9000/testapi")
             .then(res => res.text())
-            .then(res => this.setState({ apiResponse: res }));
+            .then(res => this.setState({ apiResponse: res }));*/
       }
 
       componentWillMount()
@@ -34,13 +36,13 @@ class SignIn extends Component
       
       render() {
         const theme = createTheme();
+
         const handleSubmit = (event) => {
           event.preventDefault();
           const data = new FormData(event.currentTarget);
-          console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-          });
+          this.userData.userID = data.get('userId');
+          this.userData.userPassword = data.get('password');
+          handleUserSignIn(this.userData);
         };
       
         return (
@@ -90,8 +92,9 @@ class SignIn extends Component
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    onClick={() => LoadDash()}
                   >
-                    Sign Up
+                    Sign In
                   </Button>
                 </Box>
               </Box>

@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
-import {loadDash} from "./logic";
+import {LoadDash} from "./logic";
 
 class SignUp extends Component
 {
@@ -39,8 +39,11 @@ class SignUp extends Component
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         console.log({
-          email: data.get('email'),
-          password: data.get('password'),
+            userId: data.get('userId'),
+            firstName: data.get('firstName'),
+            lastName: data.get('lastName'),
+            date: data.get('date'),
+          password: data.get('password')
         });
       };
     
@@ -121,7 +124,7 @@ class SignUp extends Component
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  onClick={() => loadDash()}
+                  onClick={() => LoadDash()}
                 >
                   Sign Up
                 </Button>
