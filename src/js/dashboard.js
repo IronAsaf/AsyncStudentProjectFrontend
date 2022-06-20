@@ -15,6 +15,22 @@ import {useCredentials} from './userAuthContext';
 const mdTheme = createTheme();
 
 const Dashboard = () => {
+    const item = {
+        date: Date.now().toString(),
+        name: 'Fake Item Name',
+        description:"sss",
+        category:"cate",
+        cost:212.79
+    };
+    const fakeRows = [
+        {
+            date: Date.now().toString(),
+            name: 'Fake Item Name',
+            description:"sss",
+            category:"cate",
+            cost:212.79
+        }
+    ];
     const HandleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -26,6 +42,7 @@ const Dashboard = () => {
         };
         console.log(item);
         AddExpense(item);
+        <Orders rows = {fakeRows}/>
     };
     const {userId, password} = useCredentials();
      useEffect(async () => {
@@ -119,7 +136,7 @@ const Dashboard = () => {
                             }
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                                    <Orders/>
+                                    <Orders rows ={fakeRows}/>
                                 </Paper>
                             </Grid>
                         </Grid>

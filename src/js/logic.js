@@ -8,6 +8,7 @@ export async function handleUserSignIn(userId, password)
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
         console.log(response)
+        //return true;
         return response.ok;
     } catch (error) {
         return false;
