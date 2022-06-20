@@ -14,7 +14,6 @@ const SignIn = ({onLogin}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
-
         const {userId, password} = event.currentTarget
         const isLoggedIn = await handleUserSignIn(userId.value, password.value);
 

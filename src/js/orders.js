@@ -7,24 +7,25 @@ import {getExpensesById} from "./logic";
 import {useCredentials} from "./userAuthContext";
 
 // Generate Order Data
-function createData(date, name, description, amount) {
-    return {date, name, description, amount};
-}
 
 
-//fake data
-const rows = [createData(
-    Date.now().toString(),
-    'Fake Item Name',
-    'Some fake item description that is long and has a lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.',
-    212.79,
-)];
+const Orders = () => {
+     function createData(date, name, description, amount) {
+        return {date, name, description, amount};
+    }
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 
-export default function Orders() {
+
+    const rows = [createData(
+        Date.now().toString(),
+        'Fake Item Name',
+        'Some fake item description that is long and has a lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.',
+        212.79,
+    )];
+
+    function preventDefault(event) {
+        event.preventDefault();
+    }
     return (
         <>
             <Table size="small">
@@ -42,6 +43,7 @@ export default function Orders() {
                             <TableCell>{row.date}</TableCell>
                             <TableCell>{row.name}</TableCell>
                             <TableCell>{row.description}</TableCell>
+                            <TableCell>{row.category}</TableCell>
                             <TableCell align="right">{`$${row.amount}`}</TableCell>
                         </TableRow>
                     ))}
@@ -50,3 +52,4 @@ export default function Orders() {
         </>
     );
 }
+export default Orders

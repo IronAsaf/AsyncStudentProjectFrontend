@@ -9,31 +9,23 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import {AddExpense, getExpensesById} from './logic';
-import {createData, initiateData} from './orders';
 import {useState, useEffect} from "react";
 import {useCredentials} from './userAuthContext';
-import json from "qs";
 
 const mdTheme = createTheme();
 
-const HandleSubmit = (event) => {
-  event.preventDefault();
-  const data = new FormData(event.currentTarget);
-  let item = {
-    expenseName: data.get('expenseName'),
-    cost: data.get('cost'),
-    category: data.get('category'),
-    description: data.get('description')
-  };
-  console.log(item);
-  AddExpense(item);
-};
-
-
-function Dashboard() {
-    const [open, setOpen] = useState(true);
-    const toggleDrawer = () => {
-        setOpen(!open);
+const Dashboard = () => {
+    const HandleSubmit = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        let item = {
+            expenseName: data.get('expenseName'),
+            cost: data.get('cost'),
+            category: data.get('category'),
+            description: data.get('description')
+        };
+        console.log(item);
+        AddExpense(item);
     };
     const {userId, password} = useCredentials();
      useEffect(async () => {
