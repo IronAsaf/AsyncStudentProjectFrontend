@@ -14,6 +14,21 @@ export async function handleUserSignIn(userId, password)
     }
 }
 
+export async function getExpensesById(userId, password)
+{
+
+    try {
+        const response = await fetch(`http://localhost:9000/expenses/user/${userId}`, {
+            method: "get",
+            headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
+        })
+        const res = await response.json()
+        return res;
+    } catch (error) {
+        return false;
+    }
+}
+
 export function AddExpense(expenseData)
 {
     alert('data:'+expenseData.expenseName+'\n'+
