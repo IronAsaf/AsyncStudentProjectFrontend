@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
@@ -11,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { AddExpense } from './logic';
 import { createData, initiateData } from './orders';
+import {useState, useEffect} from "react";
+import {useCredentials} from './userAuthContext';
 
 const mdTheme = createTheme();
 
@@ -28,11 +29,17 @@ const handleSubmit = (event) => {
 };
 
 
-function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+function Dashboard() {
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const {userId, password} = useCredentials();
+
+  useEffect(() => {
+    alert(`${userId} ${password}`);
+  }, [])
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -130,6 +137,4 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
-}
+export default Dashboard

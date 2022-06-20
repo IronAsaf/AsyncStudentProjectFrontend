@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -43,7 +42,7 @@ function preventDefault(event) {
 
 export default function Orders() {
   return (
-    <React.Fragment>
+    <>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -64,6 +63,6 @@ export default function Orders() {
           ))}
         </TableBody>
       </Table>
-    </React.Fragment>
+    </>
   );
 }
