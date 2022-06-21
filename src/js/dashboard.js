@@ -18,17 +18,17 @@ const Dashboard = () => {
     const item = {
         date: Date.now().toString(),
         name: 'Fake Item Name',
-        description:"sss",
-        category:"cate",
-        cost:212.79
+        description: "sss",
+        category: "cate",
+        cost: 212.79
     };
     const fakeRows = [
         {
             date: Date.now().toString(),
             name: 'Fake Item Name',
-            description:"sss",
-            category:"cate",
-            cost:212.79
+            description: "sss",
+            category: "cate",
+            cost: 212.79
         }
     ];
     const HandleSubmit = (event) => {
@@ -42,13 +42,25 @@ const Dashboard = () => {
         };
         console.log(item);
         AddExpense(item);
-        <Orders rows = {fakeRows}/>
     };
+
+    const HandleYearMonthReport = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        let item = {
+            year: data.get('expenseName'),
+            month: data.get('cost'),
+        };
+        console.log(item);
+        AddExpense(item);
+    };
+
+
     const {userId, password} = useCredentials();
-     useEffect(async () => {
-        alert(`${userId} ${password}`);
+    useEffect(async () => {
+        //alert(`${userId} ${password}`);
         const response = await getExpensesById(userId, password);
-        alert(`${JSON.stringify(response)}`)
+        //alert(`${JSON.stringify(response)}`)
 
     }, [])
 
@@ -71,81 +83,114 @@ const Dashboard = () => {
                     <Typography component="h1" variant="h2" align='center'>
                         User Dashboard
                     </Typography>
-                    <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
-                        <Grid container spacing={3}>
 
-                            <Container component="main" maxWidth="false">
-                                <CssBaseline/>
-                                <Box>
-                                    <Typography component="h3" variant="h5">
-                                        Add a Expense:
-                                    </Typography>
-                                    <Box component="form" noValidate onSubmit={HandleSubmit} sx={{mt: 3}}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={12} sm={4}>
-                                                <TextField
-                                                    name="expenseName"
-                                                    required
-                                                    fullWidth
-                                                    id="expenseName"
-                                                    label="Expense Name"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={4}>
-                                                <TextField
-                                                    required
-                                                    fullWidth
-                                                    id="cost"
-                                                    label="Cost"
-                                                    name="cost"
-                                                    type="number"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={4}>
-                                                <TextField
-                                                    required
-                                                    fullWidth
-                                                    id="category"
-                                                    label="Category"
-                                                    name="category"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField
-                                                    required
-                                                    fullWidth
-                                                    name="description"
-                                                    label="Description"
-                                                    id="description"
-                                                />
-                                            </Grid>
+                        <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
+                            <Grid container spacing={3}>
+                                <Container component="main" maxWidth="false">
+                                    <CssBaseline/>
+                                    <Box>
+                                        <Typography component="h3" variant="h5">
+                                            Add a Expense:
+                                        </Typography>
+                                        <Box component="form" noValidate onSubmit={HandleSubmit} sx={{mt: 3}}>
+                                            <Grid container spacing={2}>
+                                                <Grid item xs={12} sm={4}>
+                                                    <TextField
+                                                        name="expenseName"
+                                                        required
+                                                        fullWidth
+                                                        id="expenseName"
+                                                        label="Expense Name"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={4}>
+                                                    <TextField
+                                                        required
+                                                        fullWidth
+                                                        id="cost"
+                                                        label="Cost"
+                                                        name="cost"
+                                                        type="number"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={4}>
+                                                    <TextField
+                                                        required
+                                                        fullWidth
+                                                        id="category"
+                                                        label="Category"
+                                                        name="category"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12}>
+                                                    <TextField
+                                                        required
+                                                        fullWidth
+                                                        name="description"
+                                                        label="Description"
+                                                        id="description"
+                                                    />
+                                                </Grid>
 
-                                        </Grid>
-                                        <Button
-                                            type="submit"
-                                            fullWidth
-                                            variant="contained"
-                                            sx={{mt: 3, mb: 2}}
-                                        >
-                                            Add Expense
-                                        </Button>
+                                            </Grid>
+                                            <Button
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                sx={{mt: 3, mb: 2}}
+                                            >
+                                                Add Expense
+                                            </Button>
+                                        </Box>
                                     </Box>
-                                </Box>
-                            </Container>
-                            {
-                            }
-                            <Grid item xs={12}>
-                                <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                                    <Orders rows ={fakeRows}/>
-                                </Paper>
-                            </Grid>
-                        </Grid>
-                    </Container>
+                                    <Box>
+                                        <Typography component="h3" variant="h5">
+                                            Get Report:
+                                        </Typography>
+                                        <Box component="form" noValidate onSubmit={HandleYearMonthReport}>
+                                            <Grid container spacing={1}>
+                                                <Grid item xs={12} sm={3}>
+                                                    <TextField
+                                                        name="year"
+                                                        required
+                                                        id="year"
+                                                        label="Year"
+                                                        type="number"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={3}>
+                                                    <TextField
+                                                        id="month"
+                                                        label="Month"
+                                                        name="month"
+                                                        type="number"
+                                                    />
+                                                </Grid>
+                                                <Button
+                                                    type="submit"
+                                                    variant="contained"
+                                                    sx={{mt: 3, mb: 2}}
+                                                >
+                                                    Add Expense
+                                                </Button>
+                                            </Grid>
 
-                </Box>
-            </Box>
-        </ThemeProvider>
-    );
+                                        </Box>
+                                    </Box>
+                                </Container>
+                    <Grid item xs={12}>
+                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                            <Orders rows={fakeRows}/>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Container>
+
+        </Box>
+</Box>
+</ThemeProvider>
+)
+    ;
 }
 
 export default Dashboard
