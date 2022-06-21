@@ -1,69 +1,74 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import {Box, Grid, Typography} from "@mui/material";
 
-// Generate Order Data
-function createData(date, name, description, amount) {
-  return {date, name, description, amount };
-}
+const Orders = (props) => {
+    function createData(date, name, description, amount) {
+        return {date, name, description, amount};
+    }
 
-export function initiateData()
-{
-  let newRows = [];
-  
-  for (let i = 0; i < 50; i++)
-  {
-    let itemAdd = createData(
-      i,
-      Date.now().toString(),
-      'Fake Item Name',
-      'Some fake item description that is long and has a lot of text.',
-      i*212.79 - 200,
+    const rows = props.rows;
+    const stats = props.stats;
+
+    function preventDefault(event) {
+        event.preventDefault();
+    }
+
+    return (
+        <>
+            <Box p={1}>
+                <Grid>
+                    <Grid p={1}>
+                        <Typography component="h2" variant="h3" align='center' p={1}>Report</Typography>
+                    </Grid>
+                    <Grid p={1}>
+                        <Table size="medium">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>number_of_expences</TableCell>
+                                    <TableCell>sum_of_expenses</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {
+                                    <TableRow>
+                                        <TableCell>{stats.number_of_expences}</TableCell>
+                                        <TableCell>{stats.sum_of_expenses}</TableCell>
+                                    </TableRow>
+                                }
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                    <Grid p={4}>
+                        <Table size="medium">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Date</TableCell>
+                                    <TableCell>Name</TableCell>
+                                    <TableCell>Description</TableCell>
+                                    <TableCell>Category</TableCell>
+                                    <TableCell align="right">Cost</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell>{row.date}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
+                                        <TableCell>{row.description}</TableCell>
+                                        <TableCell>{row.category}</TableCell>
+                                        <TableCell align="right">{`${row.amount}`}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </Grid>
+                </Grid>
+            </Box>
+        </>
     );
-    newRows.add(itemAdd);
-  }
-
-  return newRows;
 }
-
-//fake data
-const rows = [createData(
-  Date.now().toString(),
-  'Fake Item Name',
-  'Some fake item description that is long and has a lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.',
-  212.79,
-)];
-
-function preventDefault(event) {
-  event.preventDefault();
-}
-
-export default function Orders() {
-  return (
-    <React.Fragment>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell align="right">Cost</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.description}</TableCell>
-              <TableCell align="right">{`$${row.amount}`}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </React.Fragment>
-  );
-}
+export default Orders

@@ -1,29 +1,33 @@
-import ReactDOM from "react-dom/client";
-import { useNavigate } from "react-router-dom";
-import Dashboard from "./dashboard";
 
-const root = ReactDOM.createRoot(
-    document.getElementById("root")
-  );
-
-export function LoadDash()
+export async function handleUserSignIn(userId, password)
 {
-    //let navigate = useNavigate(); 
-    //let path = 'dashboard'; 
-    //navigate(path);
 
-    root.render(<Dashboard/>);
+    try {
+        const response = await fetch("http://localhost:9000/is_authorize", {
+            method: "get",
+            headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
+        })
+        console.log(response)
+        //return true;
+        return response.ok;
+    } catch (error) {
+        return false;
+    }
 }
 
-export function handleUserSignIn(userData)
+export async function getExpensesById(userId, password)
 {
-    alert(userData);
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET","http://localhost:9000/is_authorize",true)
-    console.log(userData)
-    xhr.send()
-    return xhr.responseType;
 
+    try {
+        const response = await fetch(`http://localhost:9000/expenses/user/${userId}`, {
+            method: "get",
+            headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
+        })
+        const res = await response.json()
+        return res;
+    } catch (error) {
+        return false;
+    }
 }
 
 export function AddExpense(expenseData)
