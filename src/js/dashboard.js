@@ -15,6 +15,10 @@ import {useCredentials} from './userAuthContext';
 const mdTheme = createTheme();
 
 const Dashboard = () => {
+    const stats = {
+        number_of_expences: 12637,
+        sum_of_expenses:123
+    };
     const item = {
         date: Date.now().toString(),
         name: 'Fake Item Name',
@@ -59,8 +63,7 @@ const Dashboard = () => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let item = {
-            year: data.get('expenseName'),
-            month: data.get('cost'),
+            category: data.get('category'),
         };
         console.log(item);
         AddExpense(item);
@@ -208,9 +211,9 @@ const Dashboard = () => {
                                                     <TextField
                                                         required
                                                         fullWidth
-                                                        id="cost"
-                                                        label="Cost"
-                                                        name="cost"
+                                                        id="category"
+                                                        label="Category"
+                                                        name="category"
                                                         type="text"
                                                     />
                                                 </Grid>
@@ -233,7 +236,7 @@ const Dashboard = () => {
 
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
-                                    <Orders rows={fakeRows}/>
+                                    <Orders rows={fakeRows} stats={stats}/>
                                 </Paper>
                             </Grid>
                         </Grid>
