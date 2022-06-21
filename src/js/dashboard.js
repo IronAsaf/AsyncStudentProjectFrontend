@@ -55,6 +55,17 @@ const Dashboard = () => {
         AddExpense(item);
     };
 
+    const HandleCategoryReport = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        let item = {
+            year: data.get('expenseName'),
+            month: data.get('cost'),
+        };
+        console.log(item);
+        AddExpense(item);
+    };
+
 
     const {userId, password} = useCredentials();
     useEffect(async () => {
@@ -84,16 +95,17 @@ const Dashboard = () => {
                         User Dashboard
                     </Typography>
 
-                        <Container maxWidth="lg" sx={{mt: 4, mb: 4}}>
-                            <Grid container spacing={3}>
+                        <Container maxWidth="lg" sx={{mt: 5, mb: 4}}>
+                            <Grid container spacing={3} xs ={12}>
                                 <Container component="main" maxWidth="false">
                                     <CssBaseline/>
-                                    <Box>
+                                    <Box p={5}>
+                                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
                                         <Typography component="h3" variant="h5">
-                                            Add a Expense:
+                                            Add an Expense:
                                         </Typography>
-                                        <Box component="form" noValidate onSubmit={HandleSubmit} sx={{mt: 3}}>
-                                            <Grid container spacing={2}>
+                                        <Box component="form" noValidate onSubmit={HandleSubmit}>
+                                            <Grid container spacing={2} p={1}>
                                                 <Grid item xs={12} sm={4}>
                                                     <TextField
                                                         name="expenseName"
@@ -141,45 +153,85 @@ const Dashboard = () => {
                                             >
                                                 Add Expense
                                             </Button>
-                                        </Box>
+                                        </Box></Paper>
                                     </Box>
-                                    <Box>
-                                        <Typography component="h3" variant="h5">
-                                            Get Report:
-                                        </Typography>
-                                        <Box component="form" noValidate onSubmit={HandleYearMonthReport}>
-                                            <Grid container spacing={1}>
-                                                <Grid item xs={12} sm={3}>
-                                                    <TextField
-                                                        name="year"
-                                                        required
-                                                        id="year"
-                                                        label="Year"
-                                                        type="number"
-                                                    />
+                                    <Box p={5}>
+                                        <Paper sx={{p: 3, display: 'flex', flexDirection: 'column'}} p={2}>
+                                            <Typography component="h3" variant="h5">
+                                                Get Report By Date:
+                                            </Typography>
+                                            <Box component="form" noValidate onSubmit={HandleYearMonthReport}>
+                                                <Grid container spacing={1} p={1}>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <TextField
+                                                            name="year"
+                                                            required
+                                                            fullWidth
+                                                            id="year"
+                                                            label="Year"
+                                                            type="number"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <TextField
+                                                            fullWidth
+                                                            id="month"
+                                                            label="Month"
+                                                            name="month"
+                                                            type="number"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={4}>
+                                                        <Button
+                                                            type="submit"
+                                                            fullWidth
+                                                            variant="contained"
+                                                            sx={{mt: 1, mb: 2}}
+                                                        >
+                                                            Get Report
+                                                        </Button>
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={12} sm={3}>
-                                                    <TextField
-                                                        id="month"
-                                                        label="Month"
-                                                        name="month"
-                                                        type="number"
-                                                    />
-                                                </Grid>
-                                                <Button
-                                                    type="submit"
-                                                    variant="contained"
-                                                    sx={{mt: 3, mb: 2}}
-                                                >
-                                                    Add Expense
-                                                </Button>
-                                            </Grid>
 
-                                        </Box>
+                                            </Box>
+                                        </Paper>
+                                    </Box>
+                                    <Box p={5}>
+                                        <Paper sx={{p: 3, display: 'flex', flexDirection: 'column'}} p={2}>
+                                            <Typography component="h3" variant="h5">
+                                                Get Report By Category:
+                                            </Typography>
+                                            <Box component="form" noValidate onSubmit={HandleCategoryReport}>
+                                                <Grid container spacing={1} p={1}>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <TextField
+                                                            required
+                                                            fullWidth
+                                                            id="cost"
+                                                            label="Cost"
+                                                            name="cost"
+                                                            type="text"
+                                                        />
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Button
+                                                            type="submit"
+                                                            fullWidth
+                                                            variant="contained"
+                                                            sx={{mt: 1, mb: 2}}
+                                                        >
+                                                            Get Report
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+
+                                            </Box>
+                                        </Paper>
                                     </Box>
                                 </Container>
+
                     <Grid item xs={12}>
-                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
+                        <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
                             <Orders rows={fakeRows}/>
                         </Paper>
                     </Grid>
