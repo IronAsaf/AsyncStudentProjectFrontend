@@ -27,6 +27,7 @@ const Orders = (props) => {
                         <TableCell>Date</TableCell>
                         <TableCell>Name</TableCell>
                         <TableCell>Description</TableCell>
+                        <TableCell>Category</TableCell>
                         <TableCell align="right">Cost</TableCell>
                     </TableRow>
                 </TableHead>
@@ -37,7 +38,7 @@ const Orders = (props) => {
                             <TableCell>{row.name}</TableCell>
                             <TableCell>{row.description}</TableCell>
                             <TableCell>{row.category}</TableCell>
-                            <TableCell align="right">{`$${row.amount}`}</TableCell>
+                            <TableCell align="right">{`${row.amount}`}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
