@@ -16,26 +16,20 @@ const mdTheme = createTheme();
 
 const Dashboard = () => {
     const stats = {
-        number_of_expences: 12637,
-        sum_of_expenses:123
+        number_of_expences: -1,
+        sum_of_expenses: -1
     };
-    const item = {
-        date: Date.now().toString(),
-        name: 'Fake Item Name',
-        description: "sss",
-        category: "cate",
-        cost: 212.79
-    };
+
     const fakeRows = [
         {
             date: Date.now().toString(),
             name: 'Fake Item Name',
-            description: "sss",
-            category: "cate",
-            cost: 212.79
+            description: "Fake item description",
+            category: "fake category",
+            cost: -1.1
         }
     ];
-    const HandleSubmit = (event) => {
+    const HandleAddExpenseSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         let item = {
@@ -56,7 +50,6 @@ const Dashboard = () => {
             month: data.get('cost'),
         };
         console.log(item);
-        AddExpense(item);
     };
 
     const HandleCategoryReport = (event) => {
@@ -66,7 +59,10 @@ const Dashboard = () => {
             category: data.get('category'),
         };
         console.log(item);
-        AddExpense(item);
+
+        let it = {sum_of_expenses: 100, number_of_expences: 2020};
+        this.setState({stats: it})
+
     };
 
 
@@ -74,6 +70,11 @@ const Dashboard = () => {
     useEffect(async () => {
         //alert(`${userId} ${password}`);
         const response = await getExpensesById(userId, password);
+
+        //stats.sum_of_expenses = response['sum'];
+        //stats.number_of_expences = response['expenses'].length;
+        //this.props.render();
+
         //alert(`${JSON.stringify(response)}`)
 
     }, [])
@@ -107,7 +108,7 @@ const Dashboard = () => {
                                         <Typography component="h3" variant="h5">
                                             Add an Expense:
                                         </Typography>
-                                        <Box component="form" noValidate onSubmit={HandleSubmit}>
+                                        <Box component="form" noValidate onSubmit={HandleAddExpenseSubmit}>
                                             <Grid container spacing={2} p={1}>
                                                 <Grid item xs={12} sm={4}>
                                                     <TextField
