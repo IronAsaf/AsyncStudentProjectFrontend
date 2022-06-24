@@ -8,7 +8,7 @@ import Orders from './orders';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {getExpensesById, postNewExpense} from './logic';
+import {getExpensesByCategory, getExpensesById, postNewExpense} from './logic';
 import {useState} from "react";
 import {useCredentials} from './userAuthContext';
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -93,12 +93,13 @@ const Dashboard = () => {
         switch(type)
         {
             case "category":
-                //Category report
                 title+= " (Category: " + queryInfo.category + ")";
-                console.log("inside category report, got category of " + queryInfo.category);
+                const resCate = await getExpensesByCategory(userId, password, queryInfo.category);
+                alert(JSON.stringify(resCate));
+                stats = {number_of_expences: resCate['number_of_expences'], sum_of_expenses: resCate['sum_of_expenses']};
+                fakeRows = resCate['expenses'];
                 break;
             case "year":
-                //year report
                 console.log("inside year report, got year of " + queryInfo.year);
 
                 title+= " (Year " + queryInfo.year + ")";
@@ -115,8 +116,9 @@ const Dashboard = () => {
                 console.log("inside total report, got category of " + queryInfo.category);
                 const response = await getExpensesById(userId, password);
                 alert(JSON.stringify(response));
-                stats = {number_of_expences: response['number_of_expences'], sum_of_expenses: response['sum_of_expenses']};
                 fakeRows = response['expenses'];
+                stats = {number_of_expences: fakeRows.length, sum_of_expenses: response['sum']};
+
                 title+= " (Total)";
                 break;
         }

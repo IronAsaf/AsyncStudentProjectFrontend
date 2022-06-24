@@ -51,7 +51,7 @@ const Orders = () => {
                                         <TableCell>{row.date}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>
-                                        <TableCell align="right">{`${row.amount}`}</TableCell>
+                                        <TableCell align="right">{`${row.cost}`}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
