@@ -4,6 +4,7 @@ import SignIn from "./signin";
 import Dashboard from "./dashboard";
 import {useState} from "react";
 import {userCredentials} from "./userAuthContext";
+import Orders from "./orders";
 
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
         <Routes>
             <Route path="/" element={<SignUp/>}/>
             <Route path="signin" element={<SignIn onLogin={handleLogin}/>}/>
-            <Route path="dashboard" element={<Dashboard/>}/>
+            <Route path="dashboard/*" element={<Dashboard/>}/>
         </Routes>
         </userCredentials.Provider>
 

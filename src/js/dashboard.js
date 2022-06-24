@@ -8,9 +8,10 @@ import Orders from './orders';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {AddExpense, getExpensesById, postNewExpense} from './logic';
-import {useState, useEffect} from "react";
+import {getExpensesById, postNewExpense} from './logic';
+import {useState} from "react";
 import {useCredentials} from './userAuthContext';
+import {Route, Routes, useNavigate } from "react-router-dom";
 
 const mdTheme = createTheme();
 
@@ -68,14 +69,13 @@ const Dashboard = () => {
             category: data.get('category'),
         };
         console.log(item);
-
+        dataIsFetching(true);
         let it = {sum_of_expenses: 100, number_of_expences: 2020};
         this.setState({stats: it})
-
+        dataIsFetching(false);
     };
 
-    useEffect( () => {
-        //alert(`${userId} ${password}`);
+    const useEffect = () => {
         async function fetchData()
         {
             dataIsFetching(true);
@@ -83,13 +83,18 @@ const Dashboard = () => {
 
             stats.sum_of_expenses = 22222;
             stats.number_of_expences = 123;
-
             dataIsFetching(false);
+            alert("Mounted Dashboard, got stats - " + JSON.stringify(stats));
         }
         fetchData();
-        //alert(`${JSON.stringify(response)}`)
+        this.timer = setInterval(async () => this.fetchData(), 5000);
+    }
 
-    }, [])
+    const navigate = useNavigate();
+
+    const LoadOrders = (event) => {
+        navigate('./orders');
+    };
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -157,6 +162,7 @@ const Dashboard = () => {
                                                 fullWidth
                                                 variant="contained"
                                                 sx={{mt: 3, mb: 2}}
+                                                disabled={isLoading}
                                             >
                                                 Add Expense
                                             </Button>
@@ -240,14 +246,26 @@ const Dashboard = () => {
 
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
-                                    <div>
-                                        {!isFetchingData && <Orders rows={fakeRows} stats={stats}/>}
-                                    </div>
+                                    <Box component="form" noValidate onSubmit={LoadOrders}>
+                                        <Grid container spacing={1} p={1}>
+                                            <Grid item xs={12} sm={6}>
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{mt: 1, mb: 2}}
+                                                    color="success"
+                                                >
+                                                    Load Orders
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                    <Routes><Route path="./orders" element={<Orders rows={fakeRows} stats={stats}/>}/></Routes>
                                 </Paper>
                             </Grid>
                         </Grid>
                     </Container>
-
                 </Box>
             </Box>
         </ThemeProvider>
