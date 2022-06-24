@@ -4,8 +4,18 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import {Box, Grid, Typography} from "@mui/material";
+import {useState, useEffect} from "react";
+import {getExpensesById} from "./logic";
+import {useCredentials} from "./userAuthContext";
 
 const Orders = (props) => {
+    const {userId, password} = useCredentials();
+    useEffect(async () => {
+        alert(`${userId} ${password}`);
+        const response = await getExpensesById(userId, password);
+        alert(`${JSON.stringify(response)}`)
+
+    }, [])
     const rows = props.rows;
     const stats = props.stats;
     let id = 0;
@@ -20,15 +30,15 @@ const Orders = (props) => {
                         <Table size="medium">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>number_of_expences</TableCell>
+                                    <TableCell>{}</TableCell>
                                     <TableCell>sum_of_expenses</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
                                     <TableRow>
-                                        <TableCell>{stats.number_of_expences}</TableCell>
-                                        <TableCell>{stats.sum_of_expenses}</TableCell>
+                                        <TableCell>{}</TableCell>
+                                        <TableCell>{}</TableCell>
                                     </TableRow>
                                 }
                             </TableBody>
@@ -44,16 +54,7 @@ const Orders = (props) => {
                                     <TableCell align="right">Cost</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {rows.map((row) => (
-                                    <TableRow key={id+=1}>
-                                        <TableCell>{row.date}</TableCell>
-                                        <TableCell>{row.description}</TableCell>
-                                        <TableCell>{row.category}</TableCell>
-                                        <TableCell align="right">{`${row.cost}`}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
+
                         </Table>
                     </Grid>
                 </Grid>

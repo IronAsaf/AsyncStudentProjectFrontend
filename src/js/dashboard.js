@@ -11,13 +11,13 @@ import Typography from '@mui/material/Typography';
 import {getExpensesById, postNewExpense} from './logic';
 import {useState} from "react";
 import {useCredentials} from './userAuthContext';
-import {Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 const mdTheme = createTheme();
 
 const Dashboard = () => {
     const {userId, password} = useCredentials();
-    const [isLoading, setIsLoading] = useState(false);
+
     const [isFetchingData, dataIsFetching] = useState(false);
     const stats = {
         number_of_expences: -1,
@@ -32,6 +32,7 @@ const Dashboard = () => {
             cost: -1.1
         }
     ];
+    const [isLoading, setIsLoading] = useState(false);
     const HandleAddExpenseSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -75,25 +76,9 @@ const Dashboard = () => {
         dataIsFetching(false);
     };
 
-    const useEffect = () => {
-        async function fetchData()
-        {
-            dataIsFetching(true);
-            const response = await getExpensesById(userId, password);
-
-            stats.sum_of_expenses = 22222;
-            stats.number_of_expences = 123;
-            dataIsFetching(false);
-            alert("Mounted Dashboard, got stats - " + JSON.stringify(stats));
-        }
-        fetchData();
-        this.timer = setInterval(async () => this.fetchData(), 5000);
-    }
-
     const navigate = useNavigate();
-
     const LoadOrders = (event) => {
-        navigate('./orders');
+        navigate('/orders');
     };
 
     return (
@@ -261,7 +246,8 @@ const Dashboard = () => {
                                             </Grid>
                                         </Grid>
                                     </Box>
-                                    <Routes><Route path="./orders" element={<Orders rows={fakeRows} stats={stats}/>}/></Routes>
+                                    <Routes><Route path="./orders"
+                                                   element={<Orders rows={fakeRows} stats={stats}/>}/></Routes>
                                 </Paper>
                             </Grid>
                         </Grid>
