@@ -8,7 +8,7 @@ import Orders from './orders';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {getExpensesByCategory, getExpensesById, postNewExpense} from './logic';
+import {getExpensesByCategory, getExpensesById, getExpensesByYearAndMonth, postNewExpense} from './logic';
 import {useState} from "react";
 import {useCredentials} from './userAuthContext';
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -17,13 +17,11 @@ const mdTheme = createTheme();
 
 const Dashboard = () => {
     const {userId, password} = useCredentials();
-
-    const [isFetchingData, dataIsFetching] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    let stats = {number_of_expences: NaN, sum_of_expenses: NaN};
+    let stats = {numExpenses: NaN, sumExpenses: NaN};
     let queryInfo = {year: NaN, month: NaN, category: null};
-    let title ="Fuck this";
+    let title ="";
     let fakeRows = [];
 
     const HandleAddExpenseSubmit = async (event) => {
@@ -49,79 +47,115 @@ const Dashboard = () => {
     const HandleYearMonthReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log("[" + data.get("month") + "]");
         queryInfo = { year: data.get("year"), month: data.get("month"), category: null};
+        let type = "year";
+        if(data.get("month") !== "") type = "month";
 
-        await handleOrders("year"); // TODO @ASAF
-        LoadOrders();
+        let res = await handleOrders(type); // TODO @ASAF
+        if(res === false)
+        {
+            alert("Something went wrong");
+        }
+        else
+            LoadOrders();
     };
 
     const HandleCategoryReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-
-        //console.log(item);
         queryInfo = { year: NaN, month: NaN, category: data.get('category')};
 
-        await handleOrders("category");
-        LoadOrders();
+        let res = await handleOrders("category");
+        if(res == false)
+        {
+            alert("Something went wrong");
+        }
+        else
+            LoadOrders();
     };
 
     const HandleTotalReport = async (event) => {
         event.preventDefault();
         queryInfo = { year: NaN, month: NaN, category: null};
 
-        await handleOrders("total");
-        LoadOrders();
+        let res = await handleOrders("total");
+        if(res == false)
+        {
+            alert("Something went wrong");
+        }
+        else
+            LoadOrders();
     };
 
     const navigate = useNavigate();
     const LoadOrders = (event) => {
-        //event.preventDefault();
         navigate('/orders', {state:{stats: stats, query:queryInfo, title:title, rows:fakeRows}});
     };
 
 
 
     async function handleOrders(type) {
-        stats = {number_of_expences: NaN, sum_of_expenses: NaN}
+        // this function basically handles the data prep for the next react page - orders
         fakeRows = [];
-        title = "Report for ID: ";
-
-        title+= userId;
-
+        title = "Report for ID: " + userId;
+        let dataParsedSuccessfully = true;
         switch(type)
         {
             case "category":
                 title+= " (Category: " + queryInfo.category + ")";
                 const resCate = await getExpensesByCategory(userId, password, queryInfo.category);
+                if(resCate == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
                 alert(JSON.stringify(resCate));
-                stats = {number_of_expences: resCate['number_of_expences'], sum_of_expenses: resCate['sum_of_expenses']};
+                stats = {numExpenses: resCate['number_of_expences'], sumExpenses: resCate['sum_of_expenses']};
                 fakeRows = resCate['expenses'];
                 break;
+
             case "year":
-                console.log("inside year report, got year of " + queryInfo.year);
-
                 title+= " (Year " + queryInfo.year + ")";
+                const resYear = await getExpensesByCategory(userId, password, queryInfo.year);
+                if(resYear == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
+                alert(JSON.stringify(resYear));
+                stats = {numExpenses: resYear['number_of_expences'], sumExpenses: resYear['sum_of_expenses']};
+                fakeRows = resYear['expenses'];
                 break;
-            case "month":
-                //month report
-                console.log("inside month report, got month of " + queryInfo.month);
 
+            case "month":
                 title+= " (Year-Month "+ queryInfo.year +"-"+queryInfo.month+ ")";
+                const resMonth = await getExpensesByYearAndMonth(userId, password, queryInfo.year, queryInfo.month);
+                if(resMonth == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
+                alert(JSON.stringify(resMonth));
+                stats = {numExpenses: resMonth['number_of_expences'], sumExpenses: resMonth['sum_of_expenses']};
+                fakeRows = resMonth['expenses'];
                 break;
+
             default:
             case "total":
-                //total report
-                console.log("inside total report, got category of " + queryInfo.category);
                 const response = await getExpensesById(userId, password);
+                if(response == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
                 alert(JSON.stringify(response));
                 fakeRows = response['expenses'];
-                stats = {number_of_expences: fakeRows.length, sum_of_expenses: response['sum']};
-
+                stats = {numExpenses: fakeRows.length, sumExpenses: response['sum']};
                 title+= " (Total)";
                 break;
         }
+
+        return dataParsedSuccessfully;
     }
 
     return (
