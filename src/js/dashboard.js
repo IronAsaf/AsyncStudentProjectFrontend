@@ -17,6 +17,7 @@ const mdTheme = createTheme();
 const Dashboard = () => {
     const {userId, password} = useCredentials();
     const [isLoading, setIsLoading] = useState(false);
+    const [isFetchingData, dataIsFetching] = useState(false);
     const stats = {
         number_of_expences: -1,
         sum_of_expenses: -1
@@ -25,13 +26,12 @@ const Dashboard = () => {
     const fakeRows = [
         {
             date: Date.now().toString(),
-            name: 'Fake Item Name',
             description: "Fake item description",
             category: "fake category",
             cost: -1.1
         }
     ];
-    const HandleAddExpenseSubmit = (event) => {
+    const HandleAddExpenseSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         const data = new FormData(event.currentTarget);
@@ -76,12 +76,13 @@ const Dashboard = () => {
 
     useEffect(async () => {
         //alert(`${userId} ${password}`);
+        dataIsFetching(true);
         const response = await getExpensesById(userId, password);
 
-        //stats.sum_of_expenses = response['sum'];
-        //stats.number_of_expences = response['expenses'].length;
-        //this.props.render();
+        stats.sum_of_expenses = 22222;
+        stats.number_of_expences = 123;
 
+        dataIsFetching(false);
         //alert(`${JSON.stringify(response)}`)
 
     }, [])
@@ -235,7 +236,9 @@ const Dashboard = () => {
 
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
-                                    <Orders rows={fakeRows} stats={stats}/>
+                                    <div>
+                                        {!isFetchingData && <Orders rows={fakeRows} stats={stats}/>}
+                                    </div>
                                 </Paper>
                             </Grid>
                         </Grid>

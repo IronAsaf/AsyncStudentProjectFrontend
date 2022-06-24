@@ -6,17 +6,8 @@ import TableRow from '@mui/material/TableRow';
 import {Box, Grid, Typography} from "@mui/material";
 
 const Orders = (props) => {
-    function createData(date, name, description, amount) {
-        return {date, name, description, amount};
-    }
-
     const rows = props.rows;
     const stats = props.stats;
-
-    function preventDefault(event) {
-        event.preventDefault();
-    }
-
     return (
         <>
             <Box p={1}>
@@ -47,7 +38,6 @@ const Orders = (props) => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Date</TableCell>
-                                    <TableCell>Name</TableCell>
                                     <TableCell>Description</TableCell>
                                     <TableCell>Category</TableCell>
                                     <TableCell align="right">Cost</TableCell>
@@ -57,10 +47,9 @@ const Orders = (props) => {
                                 {rows.map((row) => (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.date}</TableCell>
-                                        <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>
-                                        <TableCell align="right">{`${row.amount}`}</TableCell>
+                                        <TableCell align="right">{`${row.cost}`}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
