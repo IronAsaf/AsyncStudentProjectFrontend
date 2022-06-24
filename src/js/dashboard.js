@@ -59,9 +59,7 @@ const Dashboard = () => {
         console.log("report of year/month -- " + data.get("year") + "/" + data.get("month")+"|");
         let res = await handleOrders(type);
         if(res === false)
-        {
             alert("Something went wrong");
-        }
         else
             LoadOrders();
     };
@@ -72,10 +70,8 @@ const Dashboard = () => {
         queryInfo = { year: NaN, month: NaN, category: data.get('category')};
 
         let res = await handleOrders("category");
-        if(res == false)
-        {
+        if(res === false)
             alert("Something went wrong");
-        }
         else
             LoadOrders();
     };
@@ -85,10 +81,8 @@ const Dashboard = () => {
         queryInfo = { year: NaN, month: NaN, category: null};
 
         let res = await handleOrders("total");
-        if(res == false)
-        {
+        if(res === false)
             alert("Something went wrong");
-        }
         else
             LoadOrders();
     };
@@ -110,7 +104,7 @@ const Dashboard = () => {
             case "category":
                 title+= " (Category: " + queryInfo.category + ")";
                 const resCate = await getExpensesByCategory(userId, password, queryInfo.category);
-                if(resCate == false)
+                if(resCate === false)
                 {
                     dataParsedSuccessfully = false;
                     break;
@@ -122,7 +116,7 @@ const Dashboard = () => {
             case "year":
                 title+= " (Year " + queryInfo.year + ")";
                 const resYear = await getExpensesByYear(userId, password, queryInfo.year);
-                if(resYear == false)
+                if(resYear === false)
                 {
                     dataParsedSuccessfully = false;
                     break;
@@ -134,7 +128,7 @@ const Dashboard = () => {
             case "month":
                 title+= " (Year-Month "+ queryInfo.year +"-"+queryInfo.month+ ")";
                 const resMonth = await getExpensesByYearAndMonth(userId, password, queryInfo.year, queryInfo.month);
-                if(resMonth == false)
+                if(resMonth === false)
                 {
                     dataParsedSuccessfully = false;
                     break;
@@ -146,7 +140,7 @@ const Dashboard = () => {
             default:
             case "total":
                 const response = await getExpensesById(userId, password);
-                if(response == false)
+                if(response === false)
                 {
                     dataParsedSuccessfully = false;
                     break;
