@@ -8,36 +8,29 @@ import Orders from './orders';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {AddExpense, getExpensesById, postNewExpense} from './logic';
-import {useState, useEffect} from "react";
+import {
+    getExpensesByCategory,
+    getExpensesById,
+    getExpensesByYear,
+    getExpensesByYearAndMonth,
+    postNewExpense
+} from './logic';
+import {useState} from "react";
 import {useCredentials} from './userAuthContext';
+import {Route, Routes, useNavigate} from "react-router-dom";
 
 const mdTheme = createTheme();
 
 const Dashboard = () => {
     const {userId, password} = useCredentials();
     const [isLoading, setIsLoading] = useState(false);
-    const stats = {
-        number_of_expences: 12637,
-        sum_of_expenses: 123
-    };
-    const item = {
-        date: Date.now().toString(),
-        name: 'Fake Item Name',
-        description: "sss",
-        category: "cate",
-        cost: 212.79
-    };
-    const fakeRows = [
-        {
-            date: Date.now().toString(),
-            name: 'Fake Item Name',
-            description: "sss",
-            category: "cate",
-            cost: 212.79
-        }
-    ];
-    const HandleSubmit = async (event) => {
+
+    let stats = {numExpenses: NaN, sumExpenses: NaN};
+    let queryInfo = {year: NaN, month: NaN, category: null};
+    let title ="";
+    let fakeRows = [];
+
+    const HandleAddExpenseSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         const data = new FormData(event.currentTarget);
@@ -57,33 +50,115 @@ const Dashboard = () => {
     };
 
 
-    const HandleYearMonthReport = (event) => {
+    const HandleYearMonthReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let item = {
-            year: data.get('expenseName'),
-            month: data.get('cost'),
-        };
-        console.log(item);
-        AddExpense(item);
+        queryInfo = { year: data.get("year"), month: data.get("month"), category: null};
+        let type = "year";
+        if(data.get("month") !== "") type = "month";
+        console.log("report of year/month -- " + data.get("year") + "/" + data.get("month")+"|");
+        let res = await handleOrders(type);
+        if(res === false)
+        {
+            alert("Something went wrong");
+        }
+        else
+            LoadOrders();
     };
 
-    const HandleCategoryReport = (event) => {
+    const HandleCategoryReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let item = {
-            category: data.get('category'),
-        };
-        console.log(item);
-        AddExpense(item);
+        queryInfo = { year: NaN, month: NaN, category: data.get('category')};
+
+        let res = await handleOrders("category");
+        if(res == false)
+        {
+            alert("Something went wrong");
+        }
+        else
+            LoadOrders();
     };
 
-    useEffect(async () => {
-        //alert(`${userId} ${password}`);
-        const response = await getExpensesById(userId, password);
-        //alert(`${JSON.stringify(response)}`)
+    const HandleTotalReport = async (event) => {
+        event.preventDefault();
+        queryInfo = { year: NaN, month: NaN, category: null};
 
-    }, [])
+        let res = await handleOrders("total");
+        if(res == false)
+        {
+            alert("Something went wrong");
+        }
+        else
+            LoadOrders();
+    };
+
+    const navigate = useNavigate();
+    const LoadOrders = (event) => {
+        navigate('/orders', {state:{stats: stats, query:queryInfo, title:title, rows:fakeRows}});
+    };
+
+
+
+    async function handleOrders(type) {
+        // this function basically handles the data prep for the next react page - orders
+        fakeRows = [];
+        title = "Report for ID: " + userId;
+        let dataParsedSuccessfully = true;
+        switch(type)
+        {
+            case "category":
+                title+= " (Category: " + queryInfo.category + ")";
+                const resCate = await getExpensesByCategory(userId, password, queryInfo.category);
+                if(resCate == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
+                stats = {numExpenses: resCate['number_of_expences'], sumExpenses: resCate['sum_of_expenses']};
+                fakeRows = resCate['expenses'];
+                break;
+
+            case "year":
+                title+= " (Year " + queryInfo.year + ")";
+                const resYear = await getExpensesByYear(userId, password, queryInfo.year);
+                if(resYear == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
+                stats = {numExpenses: resYear['number_of_expences'], sumExpenses: resYear['sum_of_expenses']};
+                fakeRows = resYear['expenses'];
+                break;
+
+            case "month":
+                title+= " (Year-Month "+ queryInfo.year +"-"+queryInfo.month+ ")";
+                const resMonth = await getExpensesByYearAndMonth(userId, password, queryInfo.year, queryInfo.month);
+                if(resMonth == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
+                stats = {numExpenses: resMonth['number_of_expences'], sumExpenses: resMonth['sum_of_expenses']};
+                fakeRows = resMonth['expenses'];
+                break;
+
+            default:
+            case "total":
+                const response = await getExpensesById(userId, password);
+                if(response == false)
+                {
+                    dataParsedSuccessfully = false;
+                    break;
+                }
+                fakeRows = response['expenses'];
+                stats = {numExpenses: fakeRows.length, sumExpenses: response['sum']};
+                title+= " (Total)";
+                break;
+        }
+
+        return dataParsedSuccessfully;
+    }
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -106,7 +181,7 @@ const Dashboard = () => {
                     </Typography>
 
                     <Container maxWidth="lg" sx={{mt: 5, mb: 4}}>
-                        <Grid container spacing={3} xs={12}>
+                        <Grid container spacing={3} xs={12} item>
                             <Container component="main" maxWidth="false">
                                 <CssBaseline/>
                                 <Box p={5}>
@@ -114,7 +189,7 @@ const Dashboard = () => {
                                         <Typography component="h3" variant="h5">
                                             Add an Expense:
                                         </Typography>
-                                        <Box component="form" noValidate onSubmit={HandleSubmit}>
+                                        <Box component="form" noValidate onSubmit={HandleAddExpenseSubmit}>
                                             <Grid container spacing={2} p={1}>
                                                 <Grid item xs={12} sm={4}>
                                                     <TextField
@@ -151,6 +226,7 @@ const Dashboard = () => {
                                                 fullWidth
                                                 variant="contained"
                                                 sx={{mt: 3, mb: 2}}
+                                                disabled={isLoading}
                                             >
                                                 Add Expense
                                             </Button>
@@ -234,12 +310,27 @@ const Dashboard = () => {
 
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
-                                    <Orders rows={fakeRows} stats={stats}/>
+                                    <Box component="form" noValidate onSubmit={HandleTotalReport}>
+                                        <Grid container spacing={1} p={1}>
+                                            <Grid item xs={12} sm={6}>
+                                                <Button
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{mt: 1, mb: 2}}
+                                                    color="success"
+                                                >
+                                                    Load Orders
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </Box>
+                                    <Routes><Route path="./orders"
+                                                   element={<Orders/>}/></Routes>
                                 </Paper>
                             </Grid>
                         </Grid>
                     </Container>
-
                 </Box>
             </Box>
         </ThemeProvider>
