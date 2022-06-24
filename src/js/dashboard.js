@@ -74,15 +74,19 @@ const Dashboard = () => {
 
     };
 
-    useEffect(async () => {
+    useEffect( () => {
         //alert(`${userId} ${password}`);
-        dataIsFetching(true);
-        const response = await getExpensesById(userId, password);
+        async function fetchData()
+        {
+            dataIsFetching(true);
+            const response = await getExpensesById(userId, password);
 
-        stats.sum_of_expenses = 22222;
-        stats.number_of_expences = 123;
+            stats.sum_of_expenses = 22222;
+            stats.number_of_expences = 123;
 
-        dataIsFetching(false);
+            dataIsFetching(false);
+        }
+        fetchData();
         //alert(`${JSON.stringify(response)}`)
 
     }, [])
@@ -108,7 +112,7 @@ const Dashboard = () => {
                     </Typography>
 
                     <Container maxWidth="lg" sx={{mt: 5, mb: 4}}>
-                        <Grid container spacing={3} xs={12}>
+                        <Grid container spacing={3} xs={12} item>
                             <Container component="main" maxWidth="false">
                                 <CssBaseline/>
                                 <Box p={5}>

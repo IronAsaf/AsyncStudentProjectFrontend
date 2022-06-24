@@ -8,6 +8,7 @@ import {Box, Grid, Typography} from "@mui/material";
 const Orders = (props) => {
     const rows = props.rows;
     const stats = props.stats;
+    let id = 0;
     return (
         <>
             <Box p={1}>
@@ -45,7 +46,7 @@ const Orders = (props) => {
                             </TableHead>
                             <TableBody>
                                 {rows.map((row) => (
-                                    <TableRow key={row.id}>
+                                    <TableRow key={id+=1}>
                                         <TableCell>{row.date}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>
