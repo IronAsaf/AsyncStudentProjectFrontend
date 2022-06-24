@@ -76,7 +76,7 @@ export async function getExpensesByYearAndMonth(userId, password, year, month) {
     }
 }
 
-export async function getExpensesByCatagory(userId, password, category) {
+export async function getExpensesByCategory(userId, password, category) {
 
     try {
         const response = await fetch(`http://localhost:9000/expenses-statistics/user/${userId}/category/${category}`, {
@@ -88,13 +88,4 @@ export async function getExpensesByCatagory(userId, password, category) {
     } catch (error) {
         return false;
     }
-}
-
-
-
-export function AddExpense(expenseData) {
-    alert('data:' + expenseData.expenseName + '\n' +
-        expenseData.cost + '\n' +
-        expenseData.category + '\n' +
-        expenseData.description + '\n')
 }

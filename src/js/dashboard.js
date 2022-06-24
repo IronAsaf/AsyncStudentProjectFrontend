@@ -90,33 +90,35 @@ const Dashboard = () => {
 
         title+= userId;
 
-        if(type ==="category")
+        switch(type)
         {
-            //Category report
-            title+= " (Category: " + queryInfo.category + ")";
-            console.log("inside category report, got category of " + queryInfo.category);
-        }
-        else if(type === "month")
-        {
-            //month report
-            console.log("inside month report, got month of " + queryInfo.month);
+            case "category":
+                //Category report
+                title+= " (Category: " + queryInfo.category + ")";
+                console.log("inside category report, got category of " + queryInfo.category);
+                break;
+            case "year":
+                //year report
+                console.log("inside year report, got year of " + queryInfo.year);
 
-            title+= " (Year-Month "+ queryInfo.year +"-"+queryInfo.month+ ")";
-        }
-        else if(type=== "year")
-        {
-            //year report
-            console.log("inside year report, got year of " + queryInfo.year);
+                title+= " (Year " + queryInfo.year + ")";
+                break;
+            case "month":
+                //month report
+                console.log("inside month report, got month of " + queryInfo.month);
 
-            title+= " (Year " + queryInfo.year + ")";
-        }
-        else if(type === "total")
-        {
-            //total report
-            console.log("inside total report, got category of " + queryInfo.category);
-            const response = await getExpensesById(userId, password);
-            let stats = response[''];
-            title+= " (Total)";
+                title+= " (Year-Month "+ queryInfo.year +"-"+queryInfo.month+ ")";
+                break;
+            default:
+            case "total":
+                //total report
+                console.log("inside total report, got category of " + queryInfo.category);
+                const response = await getExpensesById(userId, password);
+                alert(JSON.stringify(response));
+                stats = {number_of_expences: response['number_of_expences'], sum_of_expenses: response['sum_of_expenses']};
+                fakeRows = response['expenses'];
+                title+= " (Total)";
+                break;
         }
     }
 

@@ -49,7 +49,6 @@ const Orders = () => {
                                 {location.state.rows.map((row) => (
                                     <TableRow key={row.id}>
                                         <TableCell>{row.date}</TableCell>
-                                        <TableCell>{row.name}</TableCell>
                                         <TableCell>{row.description}</TableCell>
                                         <TableCell>{row.category}</TableCell>
                                         <TableCell align="right">{`${row.amount}`}</TableCell>
