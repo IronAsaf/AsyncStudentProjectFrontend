@@ -19,20 +19,13 @@ const Dashboard = () => {
     const {userId, password} = useCredentials();
 
     const [isFetchingData, dataIsFetching] = useState(false);
-    const stats = {
-        number_of_expences: -1,
-        sum_of_expenses: -1
-    };
-
-    const fakeRows = [
-        {
-            date: Date.now().toString(),
-            description: "Fake item description",
-            category: "fake category",
-            cost: -1.1
-        }
-    ];
     const [isLoading, setIsLoading] = useState(false);
+
+    let stats = {number_of_expences: NaN, sum_of_expenses: NaN};
+    let queryInfo = {year: NaN, month: NaN, category: null};
+    let title ="Fuck this";
+    let fakeRows = [];
+
     const HandleAddExpenseSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
@@ -53,33 +46,58 @@ const Dashboard = () => {
     };
 
 
-    const HandleYearMonthReport = (event) => {
+    const HandleYearMonthReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let item = {
-            year: data.get('expenseName'),
-            month: data.get('cost'),
-        };
-        console.log(item);
+        queryInfo = { year: data.get("year"), month: data.get("month"), category: null};
+
+        await handleOrders();
+        LoadOrders();
     };
 
-    const HandleCategoryReport = (event) => {
+    const HandleCategoryReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let item = {
-            category: data.get('category'),
-        };
-        console.log(item);
-        dataIsFetching(true);
-        let it = {sum_of_expenses: 100, number_of_expences: 2020};
-        this.setState({stats: it})
-        dataIsFetching(false);
+
+        //console.log(item);
+        queryInfo = { year: NaN, month: NaN, category: data.get('category')};
+
+        await handleOrders();
+        LoadOrders();
     };
 
     const navigate = useNavigate();
     const LoadOrders = (event) => {
-        navigate('/orders');
+        //event.preventDefault();
+        navigate('/orders', {state:{stats: stats, query:queryInfo, title:title, rows:fakeRows}});
     };
+
+    async function handleOrders() {
+        title = "Report for ID: ";
+        title+= userId;
+        if(queryInfo.category != null)
+        {
+            //Category report
+            title+= " (Category)";
+            console.log("inside category report, got category of " + queryInfo.category);
+        }
+        else if(queryInfo.year == NaN)
+        {
+            //total report
+            const response = await getExpensesById(userId, password);
+            let stats = response[''];
+            title+= " (Total)";
+        }
+        else if(queryInfo.year != NaN && queryInfo.month == NaN)
+        {
+            //year report
+            title+= " (Year)";
+        }
+        else {
+            //month report
+            title+= " (Month)";
+        }
+    }
 
     return (
         <ThemeProvider theme={mdTheme}>
@@ -247,7 +265,7 @@ const Dashboard = () => {
                                         </Grid>
                                     </Box>
                                     <Routes><Route path="./orders"
-                                                   element={<Orders rows={fakeRows} stats={stats}/>}/></Routes>
+                                                   element={<Orders/>}/></Routes>
                                 </Paper>
                             </Grid>
                         </Grid>
