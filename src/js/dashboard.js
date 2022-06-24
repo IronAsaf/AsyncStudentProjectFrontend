@@ -49,9 +49,10 @@ const Dashboard = () => {
     const HandleYearMonthReport = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        console.log("[" + data.get("month") + "]");
         queryInfo = { year: data.get("year"), month: data.get("month"), category: null};
 
-        await handleOrders();
+        await handleOrders("year"); // TODO @ASAF
         LoadOrders();
     };
 
@@ -62,7 +63,15 @@ const Dashboard = () => {
         //console.log(item);
         queryInfo = { year: NaN, month: NaN, category: data.get('category')};
 
-        await handleOrders();
+        await handleOrders("category");
+        LoadOrders();
+    };
+
+    const HandleTotalReport = async (event) => {
+        event.preventDefault();
+        queryInfo = { year: NaN, month: NaN, category: null};
+
+        await handleOrders("total");
         LoadOrders();
     };
 
@@ -72,30 +81,42 @@ const Dashboard = () => {
         navigate('/orders', {state:{stats: stats, query:queryInfo, title:title, rows:fakeRows}});
     };
 
-    async function handleOrders() {
+
+
+    async function handleOrders(type) {
+        stats = {number_of_expences: NaN, sum_of_expenses: NaN}
+        fakeRows = [];
         title = "Report for ID: ";
+
         title+= userId;
-        if(queryInfo.category != null)
+
+        if(type ==="category")
         {
             //Category report
-            title+= " (Category)";
+            title+= " (Category: " + queryInfo.category + ")";
             console.log("inside category report, got category of " + queryInfo.category);
         }
-        else if(queryInfo.year == NaN)
+        else if(type === "month")
+        {
+            //month report
+            console.log("inside month report, got month of " + queryInfo.month);
+
+            title+= " (Year-Month "+ queryInfo.year +"-"+queryInfo.month+ ")";
+        }
+        else if(type=== "year")
+        {
+            //year report
+            console.log("inside year report, got year of " + queryInfo.year);
+
+            title+= " (Year " + queryInfo.year + ")";
+        }
+        else if(type === "total")
         {
             //total report
+            console.log("inside total report, got category of " + queryInfo.category);
             const response = await getExpensesById(userId, password);
             let stats = response[''];
             title+= " (Total)";
-        }
-        else if(queryInfo.year != NaN && queryInfo.month == NaN)
-        {
-            //year report
-            title+= " (Year)";
-        }
-        else {
-            //month report
-            title+= " (Month)";
         }
     }
 
@@ -249,7 +270,7 @@ const Dashboard = () => {
 
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}} p={2}>
-                                    <Box component="form" noValidate onSubmit={LoadOrders}>
+                                    <Box component="form" noValidate onSubmit={HandleTotalReport}>
                                         <Grid container spacing={1} p={1}>
                                             <Grid item xs={12} sm={6}>
                                                 <Button

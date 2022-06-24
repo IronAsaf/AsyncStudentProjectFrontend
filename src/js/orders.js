@@ -6,7 +6,7 @@ import TableRow from '@mui/material/TableRow';
 import {Box, Grid, Typography} from "@mui/material";
 import {useLocation} from "react-router-dom";
 
-const Orders = (props) => {
+const Orders = () => {
     const location = useLocation();
     let id = 0;
 
@@ -21,15 +21,15 @@ const Orders = (props) => {
                         <Table size="medium">
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>{}</TableCell>
-                                    <TableCell>sum_of_expenses</TableCell>
+                                    <TableCell>Amount of Expenses</TableCell>
+                                    <TableCell>Sum</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
                                     <TableRow>
-                                        <TableCell>{}</TableCell>
-                                        <TableCell>{}</TableCell>
+                                        <TableCell>{location.state.stats.number_of_expences}</TableCell>
+                                        <TableCell>{location.state.stats.sum_of_expenses}</TableCell>
                                     </TableRow>
                                 }
                             </TableBody>
@@ -45,6 +45,17 @@ const Orders = (props) => {
                                     <TableCell align="right">Cost</TableCell>
                                 </TableRow>
                             </TableHead>
+                            <TableBody>
+                                {location.state.rows.map((row) => (
+                                    <TableRow key={row.id}>
+                                        <TableCell>{row.date}</TableCell>
+                                        <TableCell>{row.name}</TableCell>
+                                        <TableCell>{row.description}</TableCell>
+                                        <TableCell>{row.category}</TableCell>
+                                        <TableCell align="right">{`${row.amount}`}</TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
 
                         </Table>
                     </Grid>
