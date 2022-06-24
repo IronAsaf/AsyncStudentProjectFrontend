@@ -66,7 +66,7 @@ const Orders = () => {
                                     </TableHead>
                                     <TableBody>
                                         {location.state.rows.map((row) => (
-                                            <TableRow key={row.id}>
+                                            <TableRow key={id+=1}>
                                                 <TableCell>{row.date}</TableCell>
                                                 <TableCell>{row.description}</TableCell>
                                                 <TableCell>{row.category}</TableCell>

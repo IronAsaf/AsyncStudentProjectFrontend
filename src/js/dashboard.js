@@ -8,7 +8,13 @@ import Orders from './orders';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {getExpensesByCategory, getExpensesById, getExpensesByYearAndMonth, postNewExpense} from './logic';
+import {
+    getExpensesByCategory,
+    getExpensesById,
+    getExpensesByYear,
+    getExpensesByYearAndMonth,
+    postNewExpense
+} from './logic';
 import {useState} from "react";
 import {useCredentials} from './userAuthContext';
 import {Route, Routes, useNavigate} from "react-router-dom";
@@ -50,8 +56,8 @@ const Dashboard = () => {
         queryInfo = { year: data.get("year"), month: data.get("month"), category: null};
         let type = "year";
         if(data.get("month") !== "") type = "month";
-
-        let res = await handleOrders(type); // TODO @ASAF
+        console.log("report of year/month -- " + data.get("year") + "/" + data.get("month")+"|");
+        let res = await handleOrders(type);
         if(res === false)
         {
             alert("Something went wrong");
@@ -109,20 +115,18 @@ const Dashboard = () => {
                     dataParsedSuccessfully = false;
                     break;
                 }
-                alert(JSON.stringify(resCate));
                 stats = {numExpenses: resCate['number_of_expences'], sumExpenses: resCate['sum_of_expenses']};
                 fakeRows = resCate['expenses'];
                 break;
 
             case "year":
                 title+= " (Year " + queryInfo.year + ")";
-                const resYear = await getExpensesByCategory(userId, password, queryInfo.year);
+                const resYear = await getExpensesByYear(userId, password, queryInfo.year);
                 if(resYear == false)
                 {
                     dataParsedSuccessfully = false;
                     break;
                 }
-                alert(JSON.stringify(resYear));
                 stats = {numExpenses: resYear['number_of_expences'], sumExpenses: resYear['sum_of_expenses']};
                 fakeRows = resYear['expenses'];
                 break;
@@ -135,7 +139,6 @@ const Dashboard = () => {
                     dataParsedSuccessfully = false;
                     break;
                 }
-                alert(JSON.stringify(resMonth));
                 stats = {numExpenses: resMonth['number_of_expences'], sumExpenses: resMonth['sum_of_expenses']};
                 fakeRows = resMonth['expenses'];
                 break;
@@ -148,7 +151,6 @@ const Dashboard = () => {
                     dataParsedSuccessfully = false;
                     break;
                 }
-                alert(JSON.stringify(response));
                 fakeRows = response['expenses'];
                 stats = {numExpenses: fakeRows.length, sumExpenses: response['sum']};
                 title+= " (Total)";
