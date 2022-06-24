@@ -27,10 +27,28 @@ const Dashboard = () => {
         console.log(item);
         AddExpense(item);
     };
+
+
+    const fakeRows = [{
+        date: Date.now().toString(),
+        name: 'Fake Item Name',
+        description: "sss",
+        category: "cate",
+        cost: 212.79
+    }]
     const {userId, password} = useCredentials();
-     useEffect(async () => {
-        alert(`${userId} ${password}`);
+    useEffect(async () => {
         const response = await getExpensesById(userId, password);
+        const fakeRows = [{
+            date: Date.now().toString(),
+            name: 'Fake Item Name',
+            description: "sss",
+            category: "cate",
+            cost: 212.79
+        }]
+        alert(`${userId} ${password}`);
+
+
         alert(`${JSON.stringify(response)}`)
 
     }, [])
@@ -119,7 +137,7 @@ const Dashboard = () => {
                             }
                             <Grid item xs={12}>
                                 <Paper sx={{p: 2, display: 'flex', flexDirection: 'column'}}>
-                                    <Orders/>
+                                    <Orders rows={fakeRows}/>
                                 </Paper>
                             </Grid>
                         </Grid>

@@ -9,19 +9,11 @@ import {useCredentials} from "./userAuthContext";
 // Generate Order Data
 
 
-const Orders = () => {
+const Orders = (props) => {
      function createData(date, name, description, amount) {
         return {date, name, description, amount};
     }
-
-
-
-    const rows = [createData(
-        Date.now().toString(),
-        'Fake Item Name',
-        'Some fake item description that is long and has a lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.lot of text.',
-        212.79,
-    )];
+    const rows = props.rows
 
     function preventDefault(event) {
         event.preventDefault();

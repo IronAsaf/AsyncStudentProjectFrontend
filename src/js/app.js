@@ -17,7 +17,6 @@ const App = () => {
         setPassword(password);
         navigate('/dashboard');
     }
-
     return (
         <userCredentials.Provider value={{userId, password}}>
         <Routes>
