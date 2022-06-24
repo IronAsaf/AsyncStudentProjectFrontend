@@ -12,6 +12,7 @@ const SignUp = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         console.log({
             userId: data.get('userId'),
             firstName: data.get('firstName'),

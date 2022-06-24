@@ -1,7 +1,6 @@
 import {Route, Routes, useNavigate } from "react-router-dom";
 import SignUp from "./signup";
 import SignIn from "./signin";
-import orders from "./orders"
 import Dashboard from "./dashboard";
 import {useState} from "react";
 import {userCredentials} from "./userAuthContext";
