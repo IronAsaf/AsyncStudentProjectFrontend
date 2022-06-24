@@ -118,15 +118,6 @@ const Dashboard = () => {
                                             <Grid container spacing={2} p={1}>
                                                 <Grid item xs={12} sm={4}>
                                                     <TextField
-                                                        name="expenseName"
-                                                        required
-                                                        fullWidth
-                                                        id="expenseName"
-                                                        label="Expense Name"
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} sm={4}>
-                                                    <TextField
                                                         required
                                                         fullWidth
                                                         id="cost"
