@@ -8,16 +8,18 @@ import Orders from './orders';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import {AddExpense, getExpensesById} from './logic';
+import {AddExpense, getExpensesById, postNewExpense} from './logic';
 import {useState, useEffect} from "react";
 import {useCredentials} from './userAuthContext';
 
 const mdTheme = createTheme();
 
 const Dashboard = () => {
+    const {userId, password} = useCredentials();
+    const [isLoading, setIsLoading] = useState(false);
     const stats = {
         number_of_expences: 12637,
-        sum_of_expenses:123
+        sum_of_expenses: 123
     };
     const item = {
         date: Date.now().toString(),
@@ -35,18 +37,25 @@ const Dashboard = () => {
             cost: 212.79
         }
     ];
-    const HandleSubmit = (event) => {
+    const HandleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true);
         const data = new FormData(event.currentTarget);
-        let item = {
-            expenseName: data.get('expenseName'),
-            cost: data.get('cost'),
+        let expense = {
+            cost: parseInt(data.get('cost')),
             category: data.get('category'),
             description: data.get('description')
         };
-        console.log(item);
-        AddExpense(item);
+        console.log(expense)
+        const response = await postNewExpense(userId, password, expense);
+        setIsLoading(false);
+        if (response.ok)
+            alert("Expense added")
+        else
+            alert("Failed to add Expense")
+
     };
+
 
     const HandleYearMonthReport = (event) => {
         event.preventDefault();
@@ -69,8 +78,6 @@ const Dashboard = () => {
         AddExpense(item);
     };
 
-
-    const {userId, password} = useCredentials();
     useEffect(async () => {
         //alert(`${userId} ${password}`);
         const response = await getExpensesById(userId, password);
@@ -109,15 +116,6 @@ const Dashboard = () => {
                                         </Typography>
                                         <Box component="form" noValidate onSubmit={HandleSubmit}>
                                             <Grid container spacing={2} p={1}>
-                                                <Grid item xs={12} sm={4}>
-                                                    <TextField
-                                                        name="expenseName"
-                                                        required
-                                                        fullWidth
-                                                        id="expenseName"
-                                                        label="Expense Name"
-                                                    />
-                                                </Grid>
                                                 <Grid item xs={12} sm={4}>
                                                     <TextField
                                                         required
