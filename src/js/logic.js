@@ -1,3 +1,6 @@
+
+
+
 export async function handleUserSignIn(userId, password) {
 
     try {
@@ -5,7 +8,6 @@ export async function handleUserSignIn(userId, password) {
             method: "get",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
-        console.log(response)
         //return true;
         return response.ok;
     } catch (error) {

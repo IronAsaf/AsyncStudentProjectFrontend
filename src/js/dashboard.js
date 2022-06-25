@@ -39,7 +39,6 @@ const Dashboard = () => {
             category: data.get('category'),
             description: data.get('description')
         };
-        console.log(expense)
         const response = await postNewExpense(userId, password, expense);
         setIsLoading(false);
         if (response.ok)
@@ -56,7 +55,6 @@ const Dashboard = () => {
         queryInfo = { year: data.get("year"), month: data.get("month"), category: null};
         let type = "year";
         if(data.get("month") !== "") type = "month";
-        console.log("report of year/month -- " + data.get("year") + "/" + data.get("month")+"|");
         let res = await handleOrders(type);
         if(res === false)
             alert("No expenses For the selected date");
