@@ -1,10 +1,10 @@
-
+const BASE_URL = "http://localhost:9000"
 
 
 export async function handleUserSignIn(userId, password) {
 
     try {
-        const response = await fetch("http://localhost:9000/is_authorize", {
+        const response = await fetch(`${BASE_URL}/is_authorize`, {
             method: "get",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
@@ -18,7 +18,7 @@ export async function handleUserSignIn(userId, password) {
 export async function postNewExpense(userId, password, expense) {
 
     try {
-        const response = await fetch(`http://localhost:9000/expense/user/${userId}`, {
+        const response = await fetch(`${BASE_URL}/expense/user/${userId}`, {
             method: "POST",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`), 'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -39,7 +39,7 @@ export async function postNewExpense(userId, password, expense) {
 export async function getExpensesById(userId, password) {
 
     try {
-        const response = await fetch(`http://localhost:9000/expenses/user/${userId}`, {
+        const response = await fetch(`${BASE_URL}/expenses/user/${userId}`, {
             method: "get",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
@@ -53,7 +53,7 @@ export async function getExpensesById(userId, password) {
 export async function getExpensesByYear(userId, password, year) {
 
     try {
-        const response = await fetch(`http://localhost:9000/expenses-statistics/user/${userId}/year/${year}`, {
+        const response = await fetch(`${BASE_URL}/expenses-statistics/user/${userId}/year/${year}`, {
             method: "get",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
@@ -67,7 +67,7 @@ export async function getExpensesByYear(userId, password, year) {
 export async function getExpensesByYearAndMonth(userId, password, year, month) {
 
     try {
-        const response = await fetch(`http://localhost:9000/expenses-statistics/user/${userId}/year/${year}/month/${month}`, {
+        const response = await fetch(`${BASE_URL}/expenses-statistics/user/${userId}/year/${year}/month/${month}`, {
             method: "get",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
@@ -81,7 +81,7 @@ export async function getExpensesByYearAndMonth(userId, password, year, month) {
 export async function getExpensesByCategory(userId, password, category) {
 
     try {
-        const response = await fetch(`http://localhost:9000/expenses-statistics/user/${userId}/category/${category}`, {
+        const response = await fetch(`${BASE_URL}/expenses-statistics/user/${userId}/category/${category}`, {
             method: "get",
             headers: {'Authorization': 'Basic ' + btoa(`${userId}:${password}`)}
         })
