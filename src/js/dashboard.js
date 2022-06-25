@@ -59,7 +59,7 @@ const Dashboard = () => {
         console.log("report of year/month -- " + data.get("year") + "/" + data.get("month")+"|");
         let res = await handleOrders(type);
         if(res === false)
-            alert("Something went wrong");
+            alert("No expenses For the selected date");
         else
             LoadOrders();
     };
@@ -70,8 +70,9 @@ const Dashboard = () => {
         queryInfo = { year: NaN, month: NaN, category: data.get('category')};
 
         let res = await handleOrders("category");
+
         if(res === false)
-            alert("Something went wrong");
+                alert("No expenses For the selected category");
         else
             LoadOrders();
     };
@@ -82,7 +83,7 @@ const Dashboard = () => {
 
         let res = await handleOrders("total");
         if(res === false)
-            alert("Something went wrong");
+                alert("No expenses Found");
         else
             LoadOrders();
     };
